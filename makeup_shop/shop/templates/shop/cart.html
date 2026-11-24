@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Cart</h2>
+{% if cart_items %}
+<table class="table table-striped mt-3">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Line Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr>
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.product.price }} EUR</td>
+      <td>{{ item.line_total }} EUR</td>
+      <td>
+        <form method="post" action="{% url 'shop:remove_from_cart' item.product.id %}">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-danger">Remove</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4 class="text-end">Total: {{ cart_total }} EUR</h4>
+<a href="{% url 'shop:checkout' %}" class="btn btn-success float-end">Proceed to Checkout</a>
+{% else %}
+<p>Your cart is empty. <a href="{% url 'shop:product_list' %}">Go shopping!</a></p>
+{% endif %}
+{% endblock %}
+
+
+
+
+

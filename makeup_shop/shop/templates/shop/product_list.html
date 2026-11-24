@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Categories</h2>
+
+<ul>
+    {% for cat in categories %}
+        <li>
+            <a href="{% url 'shop:product_list_by_category' slug=cat.slug %}">
+                {{ cat.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        All Products
+    {% endif %}
+</h2>
+
+<div class="row mt-4">
+    {% for product in products %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.price }} EUR</p>
+
+                    <a href="{% url 'shop:product_detail' product.slug %}"
+                       class="btn btn-primary">
+                        View
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No products found in this category.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+
+
+
+

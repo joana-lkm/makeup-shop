@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card mb-3">
+  <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+  <div class="card-body">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <h4>{{ product.price }} EUR</h4>
+
+    <form method="post" action="{% url 'shop:cart_add' product.id %}">
+      {% csrf_token %}
+      <button class="btn btn-primary">Add to Cart</button>
+    </form>
+
+    {% if user.is_staff or user.is_superuser %}
+      <a href="{% url 'shop:edit' product.slug %}" class="btn btn-outline-secondary mt-2">Edit</a>
+
+      <form method="post" action="{% url 'shop:delete' product.id %}" class="d-inline mt-2">
+        {% csrf_token %}
+        <button class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+
+
+
